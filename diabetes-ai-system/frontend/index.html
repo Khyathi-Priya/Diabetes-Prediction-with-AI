@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diabetes Prediction AI System | Predict. Analyze. Prevent.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="particles-bg"></div>
+<div class="grid-overlay"></div>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="brand" onclick="Router.go('landing')">
+      <span class="brand-pulse"></span>
+      <span class="brand-text">DIA<span class="accent">.AI</span></span>
+    </div>
+    <div class="nav-links" id="nav-links">
+      <a onclick="Router.go('landing')">Home</a>
+      <a id="nav-dashboard" onclick="Router.go('dashboard')" class="hidden">Dashboard</a>
+      <a id="nav-history" onclick="Router.go('history')" class="hidden">History</a>
+      <a id="nav-reminders" onclick="Router.go('reminders')" class="hidden">Reminders</a>
+    </div>
+    <div class="nav-auth" id="nav-auth">
+      <button class="btn btn-ghost" onclick="Router.go('signin')">Sign In</button>
+      <button class="btn btn-neon" onclick="Router.go('signup')">Sign Up</button>
+    </div>
+    <div class="nav-auth hidden" id="nav-user">
+      <span class="user-chip"><span class="dot"></span><span id="nav-username">User</span></span>
+      <button class="btn btn-ghost" onclick="Auth.logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<main id="app"></main>
+
+<!-- ============ TEMPLATES ============ -->
+
+<template id="tpl-landing">
+  <section class="hero">
+    <canvas id="dna-canvas"></canvas>
+    <div class="hero-content" data-aos="fade-up">
+      <div class="hero-eyebrow">AI-POWERED HEALTHCARE PLATFORM</div>
+      <h1 class="hero-title">
+        <span class="line">Diabetes Prediction</span>
+        <span class="line accent-glow">AI System</span>
+      </h1>
+      <p class="hero-sub">Predict. Analyze. Prevent.</p>
+      <p class="hero-desc">Clinical-grade machine learning meets a real-time health analytics dashboard — know your risk in seconds, not weeks.</p>
+      <div class="hero-actions">
+        <button class="btn btn-neon btn-lg" onclick="Router.go('signup')">Get Started Free</button>
+        <button class="btn btn-outline btn-lg" onclick="Router.go('signin')">Sign In</button>
+      </div>
+      <div class="hero-scroll-hint">
+        <span>Scroll to explore</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="counters-section" data-aos="fade-up">
+    <div class="section-inner counters-grid">
+      <div class="counter-card">
+        <div class="counter-num" data-target="0" id="ctr-predictions">0</div>
+        <div class="counter-label">Predictions Made</div>
+      </div>
+      <div class="counter-card">
+        <div class="counter-num" id="ctr-accuracy">0<span class="pct">%</span></div>
+        <div class="counter-label">Model Accuracy</div>
+      </div>
+      <div class="counter-card">
+        <div class="counter-num" id="ctr-users">0</div>
+        <div class="counter-label">Registered Users</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="section-inner">
+      <div class="info-grid">
+        <div class="info-card" data-aos="fade-right">
+          <div class="info-icon">⚕</div>
+          <h3>What is Diabetes?</h3>
+          <p>Diabetes is a chronic condition where the body cannot properly regulate blood glucose, either from insufficient insulin production or insulin resistance. Left unmanaged, it raises the risk of heart disease, nerve damage, and kidney complications.</p>
+        </div>
+        <div class="info-card" data-aos="fade-up">
+          <div class="info-icon">⏱</div>
+          <h3>Why Early Detection Matters</h3>
+          <p>Type 2 diabetes can develop silently for years. Catching elevated risk early allows lifestyle changes and medical intervention that can delay or even prevent onset entirely — early signals save complications later.</p>
+        </div>
+        <div class="info-card" data-aos="fade-left">
+          <div class="info-icon">🧠</div>
+          <h3>AI-Based Prediction Benefits</h3>
+          <p>Trained on thousands of clinical records, our XGBoost model finds risk patterns across eight health markers instantly — giving you a data-backed second opinion before symptoms even appear.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div class="section-inner">
+      <h2 class="section-title" data-aos="fade-up">Platform Features</h2>
+      <div class="features-grid">
+        <div class="feature-card" data-aos="zoom-in" data-aos-delay="0">
+          <div class="feature-icon-wrap"><div class="feature-icon">🤖</div></div>
+          <h4>AI Prediction</h4>
+          <p>Real-time diabetes risk scoring powered by a tuned XGBoost classifier.</p>
+        </div>
+        <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+          <div class="feature-icon-wrap"><div class="feature-icon">📊</div></div>
+          <h4>Health Analytics</h4>
+          <p>Interactive pie charts, risk gauges, and radar charts visualize your results.</p>
+        </div>
+        <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+          <div class="feature-icon-wrap"><div class="feature-icon">🔒</div></div>
+          <h4>Secure Data Storage</h4>
+          <p>JWT authentication and hashed passwords keep your health data protected.</p>
+        </div>
+        <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+          <div class="feature-icon-wrap"><div class="feature-icon">📄</div></div>
+          <h4>Downloadable Reports</h4>
+          <p>Generate a polished PDF health report after every prediction, instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" data-aos="fade-up">
+    <div class="section-inner cta-inner">
+      <h2>Know your risk. Take control of your health.</h2>
+      <p>Create a free account and run your first AI-powered diabetes risk analysis in under a minute.</p>
+      <button class="btn btn-neon btn-lg" onclick="Router.go('signup')">Create Free Account</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="section-inner footer-inner">
+      <span>© 2026 Diabetes Prediction AI System. For informational purposes only — not a medical diagnosis.</span>
+    </div>
+  </footer>
+</template>
+
+<template id="tpl-signup">
+  <section class="auth-section">
+    <div class="auth-card glass" data-aos="zoom-in">
+      <h2 class="auth-title">Create Account</h2>
+      <p class="auth-sub">Start predicting your health risk today</p>
+      <form id="signup-form" novalidate>
+        <div class="field">
+          <input type="text" id="su-username" placeholder=" " required minlength="3">
+          <label>Username</label>
+        </div>
+        <div class="field">
+          <input type="email" id="su-email" placeholder=" " required>
+          <label>Email</label>
+        </div>
+        <div class="field">
+          <input type="password" id="su-password" placeholder=" " required minlength="6">
+          <label>Password</label>
+        </div>
+        <div class="form-error" id="signup-error"></div>
+        <button type="submit" class="btn btn-neon btn-full">
+          <span class="btn-label">Sign Up</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+      </form>
+      <p class="auth-switch">Already have an account? <a onclick="Router.go('signin')">Sign In</a></p>
+    </div>
+  </section>
+</template>
+
+<template id="tpl-signin">
+  <section class="auth-section">
+    <div class="auth-card glass" data-aos="zoom-in">
+      <h2 class="auth-title">Welcome Back</h2>
+      <p class="auth-sub">Sign in to access your health dashboard</p>
+      <form id="signin-form" novalidate>
+        <div class="field">
+          <input type="email" id="si-email" placeholder=" " required>
+          <label>Email</label>
+        </div>
+        <div class="field">
+          <input type="password" id="si-password" placeholder=" " required>
+          <label>Password</label>
+        </div>
+        <div class="form-error" id="signin-error"></div>
+        <button type="submit" class="btn btn-neon btn-full">
+          <span class="btn-label">Sign In</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+      </form>
+      <p class="auth-switch">New here? <a onclick="Router.go('signup')">Create an account</a></p>
+    </div>
+  </section>
+</template>
+
+<template id="tpl-dashboard">
+  <section class="dash-section">
+    <div class="section-inner">
+      <div class="dash-header" data-aos="fade-down">
+        <h1>Welcome back, <span class="accent" id="dash-username">User</span></h1>
+        <p>Here's your health overview</p>
+      </div>
+
+      <div id="risk-alert-banner" class="risk-banner hidden"></div>
+
+      <div class="stats-row" data-aos="fade-up">
+        <div class="stat-card"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total Predictions</div></div>
+        <div class="stat-card stat-high"><div class="stat-num" id="stat-high">0</div><div class="stat-label">High Risk</div></div>
+        <div class="stat-card stat-mod"><div class="stat-num" id="stat-mod">0</div><div class="stat-label">Moderate Risk</div></div>
+        <div class="stat-card stat-low"><div class="stat-num" id="stat-low">0</div><div class="stat-label">Low Risk</div></div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="glass form-panel" data-aos="fade-right">
+          <h3>Analyze Health Risk</h3>
+          <form id="predict-form" class="predict-form">
+            <div class="field"><input type="number" id="f-pregnancies" placeholder=" " required min="0" max="20" value="1"><label>Pregnancies</label></div>
+            <div class="field"><input type="number" id="f-glucose" placeholder=" " required min="0" max="500" value="110" step="0.1"><label>Glucose (mg/dL)</label></div>
+            <div class="field"><input type="number" id="f-bp" placeholder=" " required min="0" max="300" value="72" step="0.1"><label>Blood Pressure (mm Hg)</label></div>
+            <div class="field"><input type="number" id="f-skin" placeholder=" " required min="0" max="200" value="20" step="0.1"><label>Skin Thickness (mm)</label></div>
+            <div class="field"><input type="number" id="f-insulin" placeholder=" " required min="0" max="1000" value="80" step="0.1"><label>Insulin (mu U/ml)</label></div>
+            <div class="field"><input type="number" id="f-bmi" placeholder=" " required min="0" max="100" value="24.5" step="0.1"><label>BMI</label></div>
+            <div class="field"><input type="number" id="f-dpf" placeholder=" " required min="0" max="5" value="0.45" step="0.001"><label>Diabetes Pedigree Function</label></div>
+            <div class="field"><input type="number" id="f-age" placeholder=" " required min="1" max="120" value="32"><label>Age</label></div>
+            <div class="form-error" id="predict-error"></div>
+            <button type="submit" class="btn btn-neon btn-full btn-lg">
+              <span class="btn-label">Analyze Health Risk</span>
+              <span class="btn-spinner hidden"></span>
+            </button>
+          </form>
+        </div>
+
+        <div class="glass chart-panel" data-aos="fade-left">
+          <h3>Prediction Trend</h3>
+          <canvas id="trend-chart" height="220"></canvas>
+          <div id="trend-empty" class="empty-hint">Run a prediction to see your trend appear here.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<template id="tpl-report">
+  <section class="report-section">
+    <div class="section-inner">
+      <div class="report-header" data-aos="fade-down">
+        <button class="btn btn-ghost" onclick="Router.go('dashboard')">← Back to Dashboard</button>
+        <h1>Health Analysis Report</h1>
+      </div>
+
+      <div class="report-top-grid">
+        <div class="glass result-card" data-aos="zoom-in" id="result-card">
+          <div class="result-label">Prediction Result</div>
+          <div class="result-value" id="report-label">—</div>
+          <div class="risk-badge" id="report-badge">—</div>
+          <div class="risk-meter-wrap">
+            <canvas id="risk-gauge" width="220" height="140"></canvas>
+            <div class="gauge-pct" id="gauge-pct">0%</div>
+          </div>
+          <button class="btn btn-neon btn-full" id="download-report-btn">⬇ Download Report (PDF)</button>
+        </div>
+
+        <div class="glass chart-card" data-aos="zoom-in" data-aos-delay="100">
+          <h4>Risk Probability</h4>
+          <canvas id="pie-chart" height="220"></canvas>
+        </div>
+
+        <div class="glass chart-card" data-aos="zoom-in" data-aos-delay="200">
+          <h4>Health Radar</h4>
+          <canvas id="radar-chart" height="220"></canvas>
+        </div>
+      </div>
+
+      <div class="glass recs-panel" data-aos="fade-up">
+        <h3>AI Recommendations</h3>
+        <div class="recs-grid" id="recs-grid"></div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<template id="tpl-history">
+  <section class="history-section">
+    <div class="section-inner">
+      <div class="dash-header" data-aos="fade-down">
+        <h1>Prediction <span class="accent">History</span></h1>
+        <p>Review, search, and manage your past predictions</p>
+      </div>
+
+      <div class="glass history-controls" data-aos="fade-up">
+        <input type="text" id="hist-search" placeholder="Search by risk level...">
+        <select id="hist-filter">
+          <option value="">All Risk Levels</option>
+          <option value="Low">Low</option>
+          <option value="Moderate">Moderate</option>
+          <option value="High">High</option>
+        </select>
+        <select id="hist-sort">
+          <option value="created_at-desc">Newest First</option>
+          <option value="created_at-asc">Oldest First</option>
+          <option value="probability-desc">Highest Risk First</option>
+          <option value="probability-asc">Lowest Risk First</option>
+        </select>
+      </div>
+
+      <div class="history-table-wrap glass" data-aos="fade-up">
+        <table class="history-table">
+          <thead>
+            <tr><th>Date</th><th>Result</th><th>Probability</th><th>Risk Level</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="history-tbody"></tbody>
+        </table>
+        <div id="history-empty" class="empty-hint hidden">No prediction history yet — run your first analysis from the dashboard.</div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<template id="tpl-reminders">
+  <section class="reminders-section">
+    <div class="section-inner">
+      <div class="dash-header" data-aos="fade-down">
+        <h1>Health <span class="accent">Reminders</span></h1>
+        <p>Schedule reminders to check in on your health</p>
+      </div>
+
+      <div class="dash-grid">
+        <div class="glass form-panel" data-aos="fade-right">
+          <h3>New Reminder</h3>
+          <form id="reminder-form">
+            <div class="field"><input type="text" id="rem-title" placeholder=" " required><label>Title</label></div>
+            <div class="field"><input type="datetime-local" id="rem-time" required><label>Remind At</label></div>
+            <div class="field"><textarea id="rem-message" placeholder=" " rows="3"></textarea><label>Message (optional)</label></div>
+            <div class="form-error" id="reminder-error"></div>
+            <button type="submit" class="btn btn-neon btn-full">Schedule Reminder</button>
+          </form>
+        </div>
+        <div class="glass chart-panel" data-aos="fade-left">
+          <h3>Upcoming Reminders</h3>
+          <div id="reminders-list" class="reminders-list"></div>
+          <div id="reminders-empty" class="empty-hint">No reminders scheduled yet.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<div id="toast-container"></div>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/three-dna.js"></script>
+<script src="js/particles-bg.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/router.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/report.js"></script>
+<script src="js/history.js"></script>
+<script src="js/reminders.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
