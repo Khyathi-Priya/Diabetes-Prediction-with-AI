@@ -45,20 +45,37 @@ Predict diabetes risk in real time using **XGBoost**, track your health history,
 <div align="center">
 
 | Home Page |
-|---|---|
 | ![Home Page](diabetes-ai-system/pictures/home%20page.png) |
+| Home Page - total|
+| ![Total count](diabetes-ai-system/pictures/h%20-%20total.png) |
+|Home page - Platform features|
+| ![Platform features](diabetes-ai-system/pictures/h-%20features.png) |
+| Home Page - Account creation button|
+| ![Platform features](diabetes-ai-system/pictures/h%20-%20acc%20create%20button.png) |
 
-| Home Page |
-|---|---|
-| ![Total count](pictures/.png) |
+|Account creation|
+| ![Account creation](diabetes-ai-system/pictures/create%20account.png) |
 
-| Prediction Form | Dashboard |
-|---|---|
-| ![Prediction Form](pictures/predict.png) | ![Dashboard](pictures/dashboard.png) |
+|Already registered account|
+| ![Registered account](diabetes-ai-system/pictures/registered%20acc.png) |
 
-| Prediction History | PDF Report |
-|---|---|
-| ![History](pictures/history.png) | ![Report](pictures/report.png) |
+| Dashboard |
+| ![Dashboard](diabetes-ai-system/pictures/dashboard.png) |
+
+| Input section |
+| ![Input](diabetes-ai-system/pictures/input%20section.png) |
+
+| Result and Analysis|
+| ![Result and analysis](diabetes-ai-system/pictures/health%20analysis.png) |
+
+| AI Recommendations |
+| ![AI Recommendations](diabetes-ai-system/pictures/recommendations.png) |
+
+| Prediction History |
+| ![Prediction History](diabetes-ai-system/pictures/prediction%20history.png) |
+
+| Reminders setup |
+| ![Reminders](diabetes-ai-system/pictures/reminders%20setup.png) |
 
 </div>
 
